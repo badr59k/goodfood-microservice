@@ -13,3 +13,5 @@ target/
 
 # Misc
 .env
+
+auth-service/src/main/resources/keys/

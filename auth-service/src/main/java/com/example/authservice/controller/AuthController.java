@@ -6,10 +6,7 @@ import com.example.authservice.dto.LightRegisterRequest;
 import com.example.authservice.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,5 +23,10 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         return ResponseEntity.ok(authService.login(authenticationRequest));
+    }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> hello() throws Exception {
+        return ResponseEntity.ok("hello");
     }
 }
