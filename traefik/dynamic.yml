@@ -1,0 +1,32 @@
+http:
+  middlewares:
+    cors:
+      headers:
+        accessControlAllowOriginList:
+          - "http://localhost:3000"
+          - "http://localhost:8081"
+        accessControlAllowMethods:
+          - "GET"
+          - "POST"
+          - "PUT"
+          - "DELETE"
+          - "OPTIONS"
+        accessControlAllowHeaders:
+        - "Content-Type"
+        - "Authorization"
+        - "X-Requested-With"
+        accessControlAllowCredentials: true
+        addVaryHeader: true
+  routers:
+    auth-router:
+      rule: "PathPrefix(`/api/auth`)"
+      service: auth-service
+      entryPoints:
+        - web
+      middlewares:
+        - cors
+  services:
+    auth-service:
+      loadBalancer:
+        servers:
+          - url: http://localhost:8081
