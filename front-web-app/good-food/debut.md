@@ -46,7 +46,7 @@ Navigation:
       Home: undefined;
       Details: { id: string };
     };
-    quand on appelle l'ecran :
+    quand on appelle lecran :
     type Props = NativeStackScreenProps<RootStackParamList, "Details">;
     export function DetailsScreen({ route, navigation }: Props) {
       const { id } = route.params;
