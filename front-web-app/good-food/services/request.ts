@@ -13,12 +13,13 @@ export async function http<T = unknown>(
   url: string,
   options: RequestOptions = {}
 ): Promise<T> {
-  const fullUrl = `localhost:8081${url}`;
+  const fullUrl = `http://10.0.2.2:8081${url}`;
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers ?? {}),
   };
 
+  console.log(fullUrl);
   if (!isPublic(url)) {
     const token = "";
     headers.Autorization = `Bearer ${token}`;
@@ -34,6 +35,7 @@ export async function http<T = unknown>(
 
   if (!resultat.ok) {
     const textError = await resultat.text();
+    console.log(textError);
     throw new Error(textError);
   }
 

@@ -1,15 +1,19 @@
 import { NavigationContainer } from "@react-navigation/native";
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
+import { useAuth } from "@/providers/auth/AuthContext";
 
-export default function RootNavigator(){
-    const isAuthenticated = false;
-    return(
-        <NavigationContainer>
-            {isAuthenticated?
-                <AppStack/>
-            :<AuthStack/>
-            }
-        </NavigationContainer>
-    );
+export type RootStackParamList = {
+  Login: undefined;
+  Register: undefined;
+  Home: undefined;
+};
+
+export default function RootNavigator() {
+  const { isAuthenticated } = useAuth();
+  return (
+    <NavigationContainer>
+      {isAuthenticated ? <AppStack /> : <AuthStack />}
+    </NavigationContainer>
+  );
 }
