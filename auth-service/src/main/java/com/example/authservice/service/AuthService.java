@@ -28,7 +28,6 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(LightRegisterRequest registerRequest) {
-        System.out.println("Chaker est vraiment très beau");
         var user = User.builder()
                 .firstName(registerRequest.getFirstName())
                 .email(registerRequest.getEmail())
