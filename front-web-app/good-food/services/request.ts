@@ -3,7 +3,7 @@ type RequestOptions = Omit<RequestInit, "headers"> & {
   signal?: AbortSignal;
 };
 
-const PUBLIC_ROUTES = ["/api/auth/login", "/api/auth/register"];
+const PUBLIC_ROUTES = ["/login", "/register"];
 
 function isPublic(url: string) {
   return PUBLIC_ROUTES.some((u) => url.includes(u));
@@ -11,9 +11,10 @@ function isPublic(url: string) {
 
 export async function http<T = unknown>(
   url: string,
-  options: RequestOptions = {}
+  options: RequestOptions = {},
+  service: string
 ): Promise<T> {
-  const fullUrl = `http://10.0.2.2:8081${url}`;
+  const fullUrl = `http://10.0.2.2/api/${service}/${url}`;
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers ?? {}),
@@ -46,16 +47,24 @@ export async function http<T = unknown>(
   }
 }
 
-export const get = <T = unknown>(url: string, options: RequestOptions = {}) =>
-  http<T>(url, { ...options, method: "GET" });
+export const get = <T = unknown>(
+  url: string,
+  service: string,
+  options: RequestOptions = {}
+) => http<T>(url, { ...options, method: "GET" }, service);
 
 export const post = <T = unknown>(
   url: string,
+  service: string,
   body?: unknown,
   options: RequestOptions = {}
 ) =>
-  http<T>(url, {
-    ...options,
-    method: "POST",
-    body: JSON.stringify(body ?? {}),
-  });
+  http<T>(
+    url,
+    {
+      ...options,
+      method: "POST",
+      body: JSON.stringify(body ?? {}),
+    },
+    service
+  );
