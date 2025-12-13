@@ -12,9 +12,9 @@ http:
           - "DELETE"
           - "OPTIONS"
         accessControlAllowHeaders:
-        - "Content-Type"
-        - "Authorization"
-        - "X-Requested-With"
+          - "Content-Type"
+          - "Authorization"
+          - "X-Requested-With"
         accessControlAllowCredentials: true
         addVaryHeader: true
   routers:
@@ -25,8 +25,19 @@ http:
         - web
       middlewares:
         - cors
+    restaurant-router:
+      rule: "PathPrefix(`/api/customer`)"
+      service: restaurant-service
+      entryPoints:
+        - web
+      middlewares:
+        - cors
   services:
     auth-service:
       loadBalancer:
         servers:
-          - url: http://localhost:8081
+          - url: http://host.docker.internal:8081
+    restaurant-service:
+      loadBalancer:
+        servers:
+          - url: http://host.docker.internal:8084
