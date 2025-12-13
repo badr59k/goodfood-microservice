@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,24 +28,38 @@ public class Restaurant {
     private String phone;
 
     @ManyToMany
-    @JoinTable(name="restaurant_category",
-    joinColumns = @JoinColumn(name="restaurant_id"),
-    inverseJoinColumns = @JoinColumn(name="category_id")
+    @JoinTable(
+        name="restaurant_category",
+        joinColumns = @JoinColumn(name="restaurant_id"),
+        inverseJoinColumns = @JoinColumn(name="category_id")
     )
     private List<Category> categories;
 
     private String description;
 
-    private List<Date> serviceTime;
+    @ElementCollection
+    @CollectionTable(
+        name = "restaurant_service_time",
+        joinColumns = @JoinColumn(name = "restaurant_id")
+    )
+    private List<String> serviceTime;
 
-    @OneToMany(mappedBy = "restaurant")
+
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
     private List<Plat> plats;
-
-    // private List<Allergene> allergenes;
 
     private String image;
 
-    // private List<Avis> avis;
+    @OneToMany(
+            mappedBy = "restaurant",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<Avis> avis;
 
     private int note;
 }
